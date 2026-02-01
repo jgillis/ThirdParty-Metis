@@ -10,6 +10,17 @@
          cadjwgtsum[cnvtxs] -= cadjwgt[jj];
          cadjncy[jj] = cadjncy[--nedges];
          cadjwgt[jj] = cadjwgt[nedges];
+@@ -444,7 +445,8 @@
+           if (cadjncy[jj] == cnvtxs)
+             break;
+         }
+       }
+-      if (jj >= 0 && cadjncy[jj] == cnvtxs) { /* This 2nd check is needed for non-adjacent matchings */
++      /* added condition jj < nedges as in CreateCoarseGraph */
++      if (jj >= 0 && jj < nedges && cadjncy[jj] == cnvtxs) { /* This 2nd check is needed for non-adjacent matchings */
+         cadjwgtsum[cnvtxs] -= cadjwgt[jj];
+         cadjncy[jj] = cadjncy[--nedges];
+         cadjwgt[jj] = cadjwgt[nedges];
 --- metis-4.0.3/Lib/compress.c	2026-01-31 12:00:00.000000000 +0100
 +++ metis-4.0.3/Lib/compress.c	2026-01-31 12:00:00.000000000 +0100
 @@ -100,10 +100,14 @@
